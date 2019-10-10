@@ -1,11 +1,12 @@
 from aiohttp import web
+from ba.settings import config
 
-async def hello(request):
-    return web.Response(text="Hello, Zhan!!!")
+from ba.routes import setup_routes
+
 
 app = web.Application()
-app.add_routes([web.get('/', hello)])
-
+setup_routes(app)
+app['config'] = config
 web.run_app(app)
 
 
