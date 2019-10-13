@@ -1,7 +1,7 @@
 postgres:
-  database: postgress
-  user: postgress
-  password: sc9o
+  database: mydb
+  user: zip1982b
+  password: zhan99999
   host: localhost
   port: 5432
   minsize: 1
