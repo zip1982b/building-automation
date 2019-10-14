@@ -1,0 +1,17 @@
+<!--ba/templates/index.html-->
+
+{% extends "base.html" %}
+
+{% set title = "Main" %}
+
+{% block content %}
+{% if users %}
+    <ul>
+    {% for user in users %}
+        <li>{{ user.name }} {{ user.role }}</li>
+    {% endfor %}
+    </ul>
+{% else %}
+    <p>No user are available.</p>
+{% endif %}
+{% endblock %}
