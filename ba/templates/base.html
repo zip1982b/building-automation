@@ -3,14 +3,20 @@
 <head>
     {% block head %}
         <link rel="stylesheet" type="text/css"
-              href="{{ url('static', filename='style.css') }}" />
+              href="static/css/bootstrap.min.css" />
         <title>{{title}}</title>
     {% endblock %}
 </head>
 <body>
+<div class="container">
+    <h1>Hello World</h1>
+    <button class="btn btn-success">Press me</button>
+</div>
     <div>
       {% block content %}
       {% endblock %}
     </div>
+<script src="static/js/bootstrap.min.js"></script>
 </body>
 </html>
+
