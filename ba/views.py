@@ -13,4 +13,13 @@ async def index(request):
         return {'users': users}
 
 
+@aiohttp_jinja2.template('login.html')
+async def login(request):
+        data = await request.post()
+        print(data)
+        if(data):
+            login = data['login']
+            password = data['password']
+            return {'login': login, 'password': password}
+
 
