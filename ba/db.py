@@ -4,6 +4,9 @@ from sqlalchemy import (
     Integer, String, Date
 )
 
+from sqlalchemy.sql import select
+
+
 meta = MetaData()
 
 users = Table(
@@ -36,3 +39,11 @@ async def close_pg(app):
     await app['db'].wait_closed()
 
 
+
+async def get_user_by_name(conn, username):
+    result = await conn.fetchrow(
+        users
+        .select()
+        .where(users.c.username == username)
+    )
+    return result
