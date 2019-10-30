@@ -1,29 +1,32 @@
-from sqlalchemy import create_engine, MetaData
+import asyncio
+import aiopg
 
-from ba.settings import config, BASE_DIR
+from ba.settings import config
 from ba.db import users
 
 
 DSN = "postgresql://{user}:{password}@{host}:{port}/{database}"
-
-def create_tables(engine):
-    meta = MetaData()
-    meta.create_all(bind=engine, tables=[users])
+db_url = DSN.format(**config['postgres'])
 
 
-def sample_data(engine):
-    conn = engine.connect()
-    conn.execute(users.insert(), [
-        {'name': 'zip1982b',
-         'passwd': '12345',
-         'role': 'admin'}
-    ])
+async def create_tables():
+    conn = await aiopg.connect(db_url)
+    cur = await conn.cursor()
+    await cur.execute("CREATE TABLE users (id serial PRIMARY KEY, name text, passwd text, role text)")
+    res = cur.statusmessage
+    print(res)
     conn.close()
 
 
-if __name__ == '__main__':
-    db_url = DSN.format(**config['postgres'])
-    engine = create_engine(db_url)
 
-    create_tables(engine)
-    sample_data(engine)
+async def insert_data():
+    conn = await aiopg.connect(db_url)
+    cur = await conn.cursor()
+    await cur.execute("INSERT INTO users VALUES (2, 'test_user', '46025', 'user')")
+    res = cur.statusmessage
+    print(res)
+    conn.close()
+
+
+loop = asyncio.get_event_loop()
+loop.run_until_complete(insert_data())
