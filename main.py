@@ -19,6 +19,7 @@ setup_middlewares(app)
 app.on_startup.append(init_pg)
 app.on_cleanup.append(close_pg)
 
+
 web.run_app(app)
 
 

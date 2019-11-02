@@ -3,6 +3,7 @@ from sqlalchemy import create_engine, MetaData
 from ba.settings import config, BASE_DIR
 from ba.db import users
 
+# здесь код полностью синхронный
 
 DSN = "postgresql://{user}:{password}@{host}:{port}/{database}"
 

@@ -1,8 +1,6 @@
 import aiopg.sa
-from sqlalchemy import (
-    MetaData, Table, Column, ForeignKey,
-    Integer, String, Date
-)
+from sqlalchemy import MetaData, Table, Column, ForeignKey, Integer, String, Date
+
 
 from sqlalchemy.sql import select
 
@@ -41,9 +39,14 @@ async def close_pg(app):
 
 
 async def get_user_by_name(conn, username):
-    result = await conn.fetchrow(
-        users
-        .select()
-        .where(users.c.username == username)
-    )
-    return result
+    s = select([users.c.name])
+    result = await conn.execute(s)
+    async for row in result:
+        if row[0] == username:
+            print('username = user')
+            return row[0]
+        else:
+            return False
+    #result = await conn.fetchrow(users.select().where(users.c.username == username))
+
+
