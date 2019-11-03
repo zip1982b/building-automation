@@ -7,12 +7,38 @@ from ba.routes import setup_routes
 from ba.db import init_pg, close_pg
 from ba.middlewares import setup_middlewares
 
+from aiohttp_security import authorized_userid, SessionIdentityPolicy
+from aiohttp_security import setup as setup_security
+from aiohttp_session import setup as setup_session
+from aiohttp_session.redis_storage import RedisStorage
+import aioredis
+
+
+
+
 app = web.Application()
 app['config'] = config
 aiohttp_jinja2.setup(app,
     loader=jinja2.FileSystemLoader(str(BASE_DIR / 'ba' / 'templates')))
 setup_routes(app)
 setup_middlewares(app)
+
+
+async def setup_redis(app):
+
+    pool = await aioredis.create_redis_pool((
+        app['config']['redis']['REDIS_HOST'],
+        app['config']['redis']['REDIS_PORT']
+    ))
+
+    async def close_redis(app):
+        pool.close()
+        await pool.wait_closed()
+
+    app.on_cleanup.append(close_redis)
+    app['redis_pool'] = pool
+    return pool
+
 
 
 

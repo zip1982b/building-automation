@@ -8,6 +8,7 @@
           	<form action="/login" method="post" class="request-form ftco-animate" accept-charset="utf-8"
       enctype="application/x-www-form-urlencoded">
           		<h2>Sign In</h2>
+				{% if error %}<div class="error" style="color: red;"><strong>Error:</strong> {{ error }}</div>{% endif %}
 	    				<div class="form-group">
 	    					<label for="username" class="label">Login</label>
 	    					<input id="username" name="username" type="text" class="form-control" placeholder="enter your login">
@@ -23,8 +24,4 @@
 	    			</form>
           </div>
 </div>
-
-
-<li>Hello {{ login }} {{ password }}</li>
-
 {% endblock %}

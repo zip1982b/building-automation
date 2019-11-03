@@ -11,7 +11,7 @@ def redirect(router, route_name):
 
 @aiohttp_jinja2.template('index.html')
 async def index(request):
-    username = await authorized_userid(request)
+    username = await  (request)
     if not username:
         raise redirect(request.app.router, 'login')
 
@@ -20,6 +20,12 @@ async def index(request):
         records = await cursor.fetchall()
         users = [dict(q) for q in records]
         return {'users': users}
+
+
+
+
+
+
 
 
 @aiohttp_jinja2.template('login.html')
@@ -39,31 +45,9 @@ async def login(request):
             else:
                 response = redirect(request.app.router, 'index')
 
-                async with request.app['db'].acquire() as conn:
-                    cursor = await conn.execute(ba.db.users.select())
-                    records = await cursor.fetchall()
-                    users = [dict(q) for q in records]
-                    print(users)
-
-                if form['username'] == users:
-                    await remember(request, response, users['username'])
-                #user = await ba.db.get_user_by_name(conn, form['username'])
-                await remember(request, response, user['username'])
+                user = await ba.db.get_user_by_name(conn, form['username'])
+                await remember(request, response, user[1])
 
                 raise response
 
     return {}
-
-
-
-
-
-"""
-        data = await request.post()
-        print(data)
-        if(data):
-            login = data['login']
-            password = data['password']
-            return {'login': login, 'password': password}
-
-"""
