@@ -12,17 +12,7 @@ from aiohttp_security import setup as setup_security
 from aiohttp_session import setup as setup_session
 from aiohttp_session.redis_storage import RedisStorage
 import aioredis
-
-
-
-
-app = web.Application()
-app['config'] = config
-aiohttp_jinja2.setup(app,
-    loader=jinja2.FileSystemLoader(str(BASE_DIR / 'ba' / 'templates')))
-setup_routes(app)
-setup_middlewares(app)
-
+from ba.db_auth import DBAuthorizationPolicy
 
 async def setup_redis(app):
 
@@ -42,8 +32,39 @@ async def setup_redis(app):
 
 
 
+
+
+
+app = web.Application()
+app['config'] = config
+aiohttp_jinja2.setup(app,
+    loader=jinja2.FileSystemLoader(str(BASE_DIR / 'ba' / 'templates')))
+setup_routes(app)
+setup_middlewares(app)
+
+
+
+
+
+
+
 app.on_startup.append(init_pg)
 app.on_cleanup.append(close_pg)
+
+redis_pool = setup_redis(app)
+setup_session(app, RedisStorage(redis_pool))
+
+setup_security(
+        app,
+        SessionIdentityPolicy(),
+        DBAuthorizationPolicy(app['db'])
+    )
+
+
+
+
+
+
 
 
 web.run_app(app)
