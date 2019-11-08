@@ -11,4 +11,3 @@ def get_config(path):
         config = yaml.safe_load(f)
     return config
 
-config = get_config(config_path)
