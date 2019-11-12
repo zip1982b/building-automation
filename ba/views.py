@@ -11,7 +11,7 @@ def redirect(router, route_name):
 
 @aiohttp_jinja2.template('index.html')
 async def index(request):
-    username = await  (request)
+    username = await authorized_userid(request)
     if not username:
         raise redirect(request.app.router, 'login')
 
@@ -30,6 +30,7 @@ async def index(request):
 
 @aiohttp_jinja2.template('login.html')
 async def login(request):
+    print(request)
     username = await authorized_userid(request)
     if username:
         raise redirect(request.app.router, 'index')
@@ -51,3 +52,12 @@ async def login(request):
                 raise response
 
     return {}
+
+
+
+async def logout(request):
+    response = redirect(request.app.router, 'login')
+    await forget(request, response)
+    return response
+
+

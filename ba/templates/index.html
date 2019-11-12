@@ -20,7 +20,13 @@
                                 <li class="nav-item"> <a class="nav-link" href="#heating">HEATING</a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="#ventilation">VENTILATION</a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="#security">SECURITY</a> </li>
-                                <li class="nav-item"><a href="#" class="btn btn-outline-light my-3 my-sm-0 ml-lg-3">Download</a></li>
+                                <li class="nav-item"><a class="nav-link" href="{{ url('logout') }}">LOGOUT</a> </li>
+                                {% if users %}
+                                {% for user in users %}
+                                <li class="nav-item"><a class="nav-link" href="#">Hello {{ user.name }}</a></li>
+                                {% endfor %}
+
+                                {% endif %}
                             </ul>
                         </div>
                     </nav>
@@ -40,17 +46,6 @@
     <div class="client-logos my-5">
         <div class="container text-center">
             <img src="static/images/client-logos.png" alt="client logos" class="img-fluid">
-
-            {% if users %}
-                <ul>
-                {% for user in users %}
-                    <li>Hello {{ user.name }}</li>
-                {% endfor %}
-                </ul>
-            {% else %}
-                <p>No user are available.</p>
-            {% endif %}
-
         </div>
     </div>
 

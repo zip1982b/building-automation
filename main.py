@@ -1,7 +1,5 @@
 import logging
 
-
-
 import aiohttp_jinja2
 import jinja2
 from aiohttp import web
@@ -68,8 +66,7 @@ async def init_app(config):
         context_processors=[current_user_ctx_processor],
     )
 
-    setup_security(app, SessionIdentityPolicy(), DBAuthorizationPolicy(app['db'])
-    )
+    setup_security(app, SessionIdentityPolicy(), DBAuthorizationPolicy(app))
 
     log.debug(app['config'])
 

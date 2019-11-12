@@ -44,9 +44,7 @@ async def get_user_by_name(conn, username):
     s = select([users])
     result = await conn.execute(s)
     async for row in result:
-        print(row)
         if row[1] == username:
-            print('username = user')
             return row
         else:
             return False
