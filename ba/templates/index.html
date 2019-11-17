@@ -21,11 +21,8 @@
                                 <li class="nav-item"> <a class="nav-link" href="#ventilation">VENTILATION</a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="#security">SECURITY</a> </li>
                                 <li class="nav-item"><a class="nav-link" href="{{ url('logout') }}">LOGOUT</a> </li>
-                                {% if users %}
-                                {% for user in users %}
+                                {% if user %}
                                 <li class="nav-item"><a class="nav-link" href="#">Hello {{ user.name }}</a></li>
-                                {% endfor %}
-
                                 {% endif %}
                             </ul>
                         </div>

@@ -2,7 +2,7 @@ postgres:
   database: mydb
   user: zip1982b
   password: zhan99999
-  host: 192.168.0.100
+  host: localhost
   port: 5432
   minsize: 1
   maxsize: 5
@@ -13,5 +13,5 @@ port: 8080
 
 
 redis:
-  REDIS_HOST: 192.168.0.100
+  REDIS_HOST: localhost
   REDIS_PORT: 6379

@@ -16,10 +16,11 @@ async def index(request):
         raise redirect(request.app.router, 'login')
 
     async with request.app['db'].acquire() as conn:
-        cursor = await conn.execute(ba.db.users.select())
-        records = await cursor.fetchall()
-        users = [dict(q) for q in records]
-        return {'users': users}
+        #cursor = await conn.execute(ba.db.users.select())
+        #records = await cursor.fetchall()
+        #users = [dict(q) for q in records]
+        user = await ba.db.get_user_by_name(conn, username)
+        return {'user': user}
 
 
 
