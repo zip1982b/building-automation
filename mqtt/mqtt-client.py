@@ -4,7 +4,7 @@ import paho.mqtt.client as mqtt
 import asyncio
 
 
-client_id = 'paho-mqtt-python/issue72/' + str(uuid.uuid4())
+client_id = 'paho-mqtt-python/test/' + str(uuid.uuid4())
 topic = client_id
 print("Using client_id / topic: " + client_id)
 
@@ -75,6 +75,7 @@ class AsyncMqttExample:
             print("Got unexpected message: {}".format(msg.decode()))
         else:
             self.got_message.set_result(msg.payload)
+            print(msg.payload)
 
     def on_disconnect(self, client, userdata, rc):
         self.disconnected.set_result(rc)
@@ -88,27 +89,29 @@ class AsyncMqttExample:
         self.client.on_message = self.on_message
         self.client.on_disconnect = self.on_disconnect
 
+        self.client.username_pw_set(username="zip", password="sc9o")
         aioh = AsyncioHelper(self.loop, self.client)
 
-        self.client.connect('mqtt.eclipse.org', 1883, 60)
+        self.client.connect('192.168.8.103', 1883, 60)
         self.client.socket().setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 2048)
 
-        for c in range(3):
-            await asyncio.sleep(5)
-            print("Publishing")
-            self.got_message = self.loop.create_future()
-            self.client.publish(topic, b'Hello' * 40000, qos=1)
-            msg = await self.got_message
-            print("Got response with {} bytes".format(len(msg)))
-            self.got_message = None
+        while True:
+            await asyncio.sleep(1)
+            #print("Publishing")
+            #self.got_message = self.loop.create_future()
+            #self.client.publish(topic, b'Hello Zhan', qos=0)
+            #print(topic)
+            #msg = await self.got_message
+            #print("Got response with {} bytes".format(len(msg)))
+            #self.got_message = None
 
-        self.client.disconnect()
-        print("Disconnected: {}".format(await self.disconnected))
+        #self.client.disconnect()
+        #print("Disconnected: {}".format(await self.disconnected))
 
 if __name__ == '__main__':
     print("Starting")
     loop = asyncio.get_event_loop()
-    loop.run_until_complete(AsyncMqttExample(loop).main())
-    loop.close()
-    print("Finished")
+    asyncio.run(AsyncMqttExample(loop).main())
+
+
 
