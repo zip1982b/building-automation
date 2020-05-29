@@ -12,10 +12,10 @@
                         <a class="navbar-brand" href="/"><img src="static/images/logo.png" class="img-fluid" alt="logo"></a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
                         <div class="collapse navbar-collapse" id="navbar">
                             <ul class="navbar-nav ml-auto">
-                                <li class="nav-item"> <a class="nav-link active" href="#home">HOME <span class="sr-only">(current)</span></a> </li>
-                                <li class="nav-item"> <a class="nav-link" href="#light">LIGHT</a> </li>
-                                <li class="nav-item"> <a class="nav-link" href="#heating">HEATING</a> </li>
-                                <li class="nav-item"> <a class="nav-link" href="#security">SECURITY</a> </li>
+                                <li class="nav-item"> <a class="nav-link active" href="{{ url('index') }}">HOME</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ url('light') }}">LIGHT</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ url('heating') }}">HEATING</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="{{ url('security') }}">SECURITY</a> </li>
                                 <li class="nav-item"><a class="nav-link" href="{{ url('logout') }}">LOGOUT</a> </li>
                                 {% if user %}
                                 <li class="nav-item"><a class="nav-link" href="#">Hello {{ user.name }}</a></li>
