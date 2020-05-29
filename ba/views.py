@@ -25,6 +25,48 @@ async def index(request):
 
 
 
+@aiohttp_jinja2.template('light.html')
+async def light(request):
+    username = await authorized_userid(request)
+    if not username:
+        raise redirect(request.app.router, 'login')
+
+    async with request.app['db'].acquire() as conn:
+        user = await ba.db.get_user_by_name(conn, username)
+        return {'user': user}
+
+
+@aiohttp_jinja2.template('heating.html')
+async def heating(request):
+    username = await authorized_userid(request)
+    if not username:
+        raise redirect(request.app.router, 'login')
+
+    async with request.app['db'].acquire() as conn:
+        user = await ba.db.get_user_by_name(conn, username)
+        return {'user': user}
+
+
+@aiohttp_jinja2.template('ventilation.html')
+async def ventilation(request):
+    username = await authorized_userid(request)
+    if not username:
+        raise redirect(request.app.router, 'login')
+
+    async with request.app['db'].acquire() as conn:
+        user = await ba.db.get_user_by_name(conn, username)
+        return {'user': user}
+
+
+@aiohttp_jinja2.template('security.html')
+async def security(request):
+    username = await authorized_userid(request)
+    if not username:
+        raise redirect(request.app.router, 'login')
+
+    async with request.app['db'].acquire() as conn:
+        user = await ba.db.get_user_by_name(conn, username)
+        return {'user': user}
 
 
 
